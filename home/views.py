@@ -7,10 +7,12 @@ from rest_framework.viewsets import ViewSet, ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
+from rest_framework.authentication import TokenAuthentication
 
 from .models import User
 
 from .serializers import HelloSerializer, UserProfileSerializer
+from .permissions import UpdateOwnprofile
 
 
 class HelloApiView(APIView):
@@ -93,3 +95,5 @@ class HelloViewSet(ViewSet):
 class UserProfileViewSet(ModelViewSet):
     serializer_class = UserProfileSerializer
     queryset = User.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (UpdateOwnprofile,)
