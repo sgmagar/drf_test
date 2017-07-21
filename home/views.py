@@ -3,12 +3,14 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import ViewSet, ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 
-from .serializers import HelloSerializer
+from django.contrib.auth.models import User
+
+from .serializers import HelloSerializer, UserProfileSerializer
 
 
 class HelloApiView(APIView):
@@ -86,3 +88,8 @@ class HelloViewSet(ViewSet):
     def destroy(self, request, pk=None):
         '''handles removing an object'''
         return Response({'http_method': 'DELETE'})
+
+
+class UserProfileViewSet(ModelViewSet):
+    serializer_class = UserProfileSerializer
+    queryset = User.objects.all()
