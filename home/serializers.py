@@ -26,7 +26,8 @@ class UserProfileSerializer(ModelSerializer):
         '''create and return a new user'''
         user = User(
             email=validated_data.get('email'),
-            name=validated_data.get('name')
+            name=validated_data.get('name'),
+            username=validated_data.get('name')
         )
         user.set_password(validated_data.get('password'))
         user.save()

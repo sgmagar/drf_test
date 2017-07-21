@@ -9,6 +9,8 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
 
 from .models import User
 
@@ -100,3 +102,13 @@ class UserProfileViewSet(ModelViewSet):
     permission_classes = (UpdateOwnprofile,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name', 'email')
+
+
+class LoginViewSet(ViewSet):
+    '''Check email and password and returns an auth token'''
+
+    serializer_class = AuthTokenSerializer
+
+    def create(self, request):
+        '''use ObtainAuthToken APIView to validate and create a token'''
+        return ObtainAuthToken().post(request)
