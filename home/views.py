@@ -12,9 +12,9 @@ from rest_framework import filters
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
 
-from .models import User
+from .models import User, ProfileFeedItem
 
-from .serializers import HelloSerializer, UserProfileSerializer
+from .serializers import HelloSerializer, UserProfileSerializer, ProfileFeedItemSerializer
 from .permissions import UpdateOwnprofile
 
 
@@ -112,3 +112,15 @@ class LoginViewSet(ViewSet):
     def create(self, request):
         '''use ObtainAuthToken APIView to validate and create a token'''
         return ObtainAuthToken().post(request)
+
+
+class UserProfileFeedViewSet(ModelViewSet):
+    '''handle add, create, delete profile feed items'''
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = ProfileFeedItemSerializer
+    queryset = ProfileFeedItem.objects.all()
+
+    def perform_create(self, serializer):
+        'sets the user to the logged in user'
+
+        serializer.save(user=self.request.user)
