@@ -11,7 +11,6 @@ class HelloSerializer(Serializer):
 
 class UserProfileSerializer(ModelSerializer):
     '''A serializer for user profile object'''
-    email = serializers.EmailField(required=True)
 
     class Meta:
         model = User

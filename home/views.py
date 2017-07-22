@@ -11,11 +11,12 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from .models import User, ProfileFeedItem
 
 from .serializers import HelloSerializer, UserProfileSerializer, ProfileFeedItemSerializer
-from .permissions import UpdateOwnprofile
+from .permissions import UpdateOwnprofile, PostOwnStatus
 
 
 class HelloApiView(APIView):
@@ -117,6 +118,7 @@ class LoginViewSet(ViewSet):
 class UserProfileFeedViewSet(ModelViewSet):
     '''handle add, create, delete profile feed items'''
     authentication_classes = (TokenAuthentication,)
+    permission_classes = (PostOwnStatus, IsAuthenticatedOrReadOnly)
     serializer_class = ProfileFeedItemSerializer
     queryset = ProfileFeedItem.objects.all()
 
