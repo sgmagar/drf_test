@@ -11,7 +11,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 from .models import User, ProfileFeedItem
 
@@ -118,7 +118,10 @@ class LoginViewSet(ViewSet):
 class UserProfileFeedViewSet(ModelViewSet):
     '''handle add, create, delete profile feed items'''
     authentication_classes = (TokenAuthentication,)
-    permission_classes = (PostOwnStatus, IsAuthenticatedOrReadOnly)
+    # user can view status but have to login to post
+    permission_classes - (PostOwnStatus, IsAuthenticatedOrReadOnly)
+    # user have to login to view the status also
+    permission_classes = (PostOwnStatus, IsAuthenticated)
     serializer_class = ProfileFeedItemSerializer
     queryset = ProfileFeedItem.objects.all()
 
