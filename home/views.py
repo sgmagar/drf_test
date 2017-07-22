@@ -119,7 +119,7 @@ class UserProfileFeedViewSet(ModelViewSet):
     '''handle add, create, delete profile feed items'''
     authentication_classes = (TokenAuthentication,)
     # user can view status but have to login to post
-    permission_classes - (PostOwnStatus, IsAuthenticatedOrReadOnly)
+    # permission_classes = (PostOwnStatus, IsAuthenticatedOrReadOnly)
     # user have to login to view the status also
     permission_classes = (PostOwnStatus, IsAuthenticated)
     serializer_class = ProfileFeedItemSerializer
